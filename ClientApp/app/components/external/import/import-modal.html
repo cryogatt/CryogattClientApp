@@ -1,0 +1,51 @@
+﻿<template>
+    <require from="../../items/generic-storage.css"></require>
+    <require from="../../items/generic-storage-modal.css"></require>
+    <require from="./import-modal.css"></require>
+    <require from="../../utils/bootstrap-tooltip"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+
+            <!-- Close button -->
+            <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <!-- Title -->
+            <h4 class="modal-title">Import Existing Records</h4>
+
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="form-group">
+                <!-- File path of the data to import -->
+                <label>File Name *</label><br />
+                <input type="file" accept=".txt,.csv" files.bind="fileNames" style="display: none" class="import-file" />
+                <span if.bind="fileNames" class="form-control display-import-file" repeat.for="i of fileNames.length">
+                    <span if.bind="i === 0" bootstrap-tooltip="title.bind: fileNames.item(i).name">${fileNames.item(i).name}</span>
+                </span>
+                <span if.bind="!fileNames" class="form-control display-import-file">
+                </span>
+                <button class="btn btn-primary select-import-file">Select file...</button>
+            </div>
+        </div>
+
+        <!-- Modal footer, command button row -->
+        <div class="modal-footer">
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+
+            <button type="button" class="btn btn-primary" click.trigger="import()">Import</button>
+            <button type="button" class="btn btn-primary" click.trigger="controller.cancel()">Cancel</button>
+        </div>
+    </ux-dialog>
+</template>

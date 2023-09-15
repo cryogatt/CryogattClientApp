@@ -1,0 +1,90 @@
+﻿<template>
+    <require from="../../../items/generic-storage.css"></require>
+    <require from="../../../items/generic-storage-modal.css"></require>
+    <require from="../../../utils/router-button"></require>
+    <require from="../../../utils/recursive-router-button"></require>
+    <require from="../position-map.css"></require>
+    <require from="../generic-box-reader.css"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+            <div class="col-sm-12">
+
+                <!-- Close button -->
+                <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Title -->
+                <label class="modal-title">${title}</label>
+
+                <!-- subtitle -->
+                <p class="modal-title">${subtitle}</p>
+
+                <!-- Separator -->
+                <div>
+                    <hr />
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group col-sm-12" align="center">
+                        <img if.bind="(containerState === 4)" src="../../../images/ident-problem.png" class="assignment-cell" /> <!--ContainerStates.ERROR-->
+                        <img if.bind="(containerState === 3)" src="../../../images/ident-problem.png" class="assignment-cell" /> <!--ContainerStates.INVAILD-->
+                        <img if.bind="(containerState === 2)" src="../../../images/assignNewVial.png" class="assignment-cell" /> <!--ContainerStates.UNFILLED-->
+                        <img if.bind="(containerState === 1)" src="../../../images/error-already-assigned.png" class="assignment-cell" /><!--ContainerStates.FILLED-->
+                        <img if.bind="(containerState === 0)" src="../../../images/empty-position.png" class="assignment-cell" /><!--ContainerStates.DEFAULT-->
+                    </div>
+
+                    <!-- Materials -->
+                    <div class="form-group col-sm-12">
+                        <label>Batch *</label>
+                        <select value.bind="material" class="form-control" disabled.bind="!tagIsValid">
+                            <option repeat.for="item of materials" model.bind="item">${item.name}</option>
+                        </select>
+                    </div>
+
+                    <div if.bind="loading" class="loader"></div>
+
+                    <!-- Materials -->
+                    <div class="form-group col-sm-12">
+                        <label>Batch Type*</label>
+                        <select value.bind="type" class="form-control">
+                            <option repeat.for="item of types" model.bind="item">${item}</option>
+                        </select>
+                    </div>
+
+                    <!-- Configurable fields -->
+                    <div>
+                        <table class="form-group col-sm-12">
+                            <tbody>
+                                <tr repeat.for="mat of 2">
+                                    <td>
+                                        <div class="form-group col-sm-12">
+                                            <label>${material.materialInfo[mat].field} *</label>
+                                            <input type="text" value.bind="material.materialInfo[mat].value" class="form-control" disabled />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Label -->
+                    <div class="form-group col-sm-12">
+                        <label>Labelled *</label>
+                        <input id="label" type="text" value.bind="vial.Description" class="form-control" keypress.delegate="handleKeyPress($event)" autofocus="autofocus" />
+                    </div>
+
+                    <!-- Modal footer, command button row -->
+                    <div class="modal-footer">
+                        <div class="form-group button-separator">
+                            <button if.bind="tagIsValid" type="button" class="btn btn-primary" disabled.bind="!(vial.Description && vial.Description !== '')" click.trigger="confirm()">Confirm</button>
+                            <button type="button" class="btn btn-primary" click.trigger="controller.cancel()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ux-dialog>
+</template>

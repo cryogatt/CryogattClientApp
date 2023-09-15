@@ -1,0 +1,23 @@
+﻿<template bindable="materials,storage">
+    <require from="../../utils/router-button"></require>
+
+    <router-button if.bind="materials.canViewAliquots"
+                   title="View Cryobank"
+                   route="cryobank"
+                   params.bind="storage.selectedItem && storage.selectedItem.$isSelected ? storage.selectedItem.uid : ''"
+                   enabled.bind="storage.selectedItem && storage.selectedItem.$isSelected">
+    </router-button>
+    <router-button if.bind="materials.canViewAliquots"
+                   title="View Tested"
+                   route="tested"
+                   params.bind="storage.selectedItem && storage.selectedItem.$isSelected ? storage.selectedItem.uid : ''"
+                   enabled.bind="storage.selectedItem && storage.selectedItem.$isSelected">
+    </router-button>
+    <router-button if.bind="materials.canViewAliquots"
+                   title="View SD"
+                   route="safety-duplication"
+                   params.bind="storage.selectedItem && storage.selectedItem.$isSelected ? storage.selectedItem.uid : ''"
+                   enabled.bind="storage.selectedItem && storage.selectedItem.$isSelected">
+    </router-button>
+
+</template>

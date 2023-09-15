@@ -1,0 +1,23 @@
+﻿<template bindable="vials">
+    <require from="./location-map.css"></require>
+    <table>
+        <thead>
+            <tr repeat.for="i of 10">
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="row of rows">
+                <td if.bind="$first" repeat.for="cell of row">
+                    <img if.bind="$first" src="../../images/box-tag-position.png" class="grid-cell" />
+                    <img if.bind="!$first && cell" src="../../images/vial-position.png" class="grid-cell" />
+                    <img if.bind="!$first && !cell" src="../../images/empty-position.png" class="grid-cell" />
+                </td>
+                <td if.bind="!$first" repeat.for="cell of row">
+                    <img if.bind="cell" src="../../images/vial-position.png" class="grid-cell" />
+                    <img if.bind="!cell" src="../../images/empty-position.png" class="grid-cell" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>

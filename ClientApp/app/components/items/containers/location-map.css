@@ -1,0 +1,8 @@
+﻿location-map {
+    padding-top: 2%;
+    padding-right: 2%;
+}
+
+.grid-cell {
+    max-width: 25px;
+}

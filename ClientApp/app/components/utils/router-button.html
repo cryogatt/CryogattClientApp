@@ -1,0 +1,3 @@
+﻿<template bindable="route,params,title,enabled">
+    <button type="button" class="btn btn-primary btn-xl" click.delegate="navigate()" disabled.bind="!enabled">${title}</button>
+</template>

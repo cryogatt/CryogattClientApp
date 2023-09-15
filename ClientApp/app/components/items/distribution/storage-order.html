@@ -1,0 +1,65 @@
+﻿<template>
+    <require from="./storage-orders.css"></require>
+    <require from="../../utils/date-picker"></require>
+    <require from="bootstrap-daterangepicker/daterangepicker.css"></require>
+    <require from="../../utils/format-value-converter"></require>
+    <require from="../../utils/numeric-value-converter"></require>
+    <require from="../../utils/numeric-value"></require>
+    <require from="../storage-modal-mode"></require>
+
+    <div class="container">
+        <div class="col-sm-6 order-properties">
+            <!-- Sender -->
+            <div class="form-group col-sm-10">
+                <label>Sender *</label>
+                <input type="text" list="sender-names" value.bind="order.sender" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                <datalist id="sender-names">
+                    <option repeat.for="item of contacts">${item}</option>
+                </datalist>
+            </div>
+            <!-- Recipient -->
+            <div class="form-group col-sm-10">
+                <label>Recipient *</label>
+                <input type="text" list="recipient-names" value.bind="order.recipient" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                <datalist id="recipient-names">
+                    <option repeat.for="item of contacts">${item}</option>
+                </datalist>
+            </div>
+            <!-- Consignment No. -->
+            <div class="form-group col-sm-10">
+                <label>Consignment *</label>
+                <input type="text" value.bind="order.consignment_no" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+            </div>
+            <!-- Notes -->
+            <div class="form-group col-sm-10">
+                <label>Notes </label>
+                <input type="text" value.bind="order.notes" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+            </div>
+            <!-- Sample Qty -->
+            <div class="form-group col-sm-10">
+                <label>Sample Qty</label>
+                <input type="number" numeric-value.bind="order.sample_qty | numeric" class="form-control" disabled />
+            </div>
+            <!-- Status -->
+            <div class="form-group col-sm-10">
+                <label>Status </label>
+                <input type="text" value.bind="order.status" class="form-control" disabled />
+            </div>
+            <!--<!-- Ordered Date -->
+            <div class="form-group col-sm-12">
+                <label>Ordered Date</label>
+                <date-picker value.bind="ordered_date" model.bind="order.ordered_date" disabled />
+            </div>
+            <!-- Dispatched Date -->
+            <div class="form-group col-sm-12 ">
+                <label>Dispatched Date</label>
+                <date-picker value.bind="dispatched_date" model.bind="order.dispatched_date" disabled />
+            </div>
+            <!-- Arrived Date -->
+            <div class="form-group col-sm-12 ">
+                <label>Arrived Date</label>
+                <date-picker value.bind="arrived_date" model.bind="order.arrived_date" disabled />
+            </div>
+        </div>
+    </div>
+</template>

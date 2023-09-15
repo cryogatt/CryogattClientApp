@@ -1,0 +1,69 @@
+﻿hr {
+    border-top-color: black;
+}
+
+.header-separator {
+    padding-bottom: 1%;
+}
+
+.header {
+    font-size: 275%;
+}
+
+h1 small {
+    font-size: 65%;
+    color: black;
+}
+
+.search-text {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+.table-actions {
+    padding-bottom: 1%;
+    font-size: 130%;
+}
+
+/* Aurelia table */
+.aut-sort:before {
+    font-family: "Glyphicons Halflings";
+    padding-right: 0px;
+    width: 1.28571429em;
+    display: inline-block;
+    text-align: center;
+    font-weight: lighter;
+    font-size: 25px;
+}
+
+.aut-sortable:before {
+    content: "\e150";
+}
+
+.aut-asc:before {
+    content: "\e155";
+}
+
+.aut-desc:before {
+    content: "\e156";
+}
+
+.btn-xl {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.toast-title {
+    font-weight:bold;
+    font-size:32px;
+}
+
+.toast-message {
+    font-weight: bold;
+    font-size: 27px;
+}
+
+

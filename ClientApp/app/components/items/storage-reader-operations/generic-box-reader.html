@@ -1,0 +1,78 @@
+﻿<template>
+    <require from="./generic-box-reader.css"></require>
+    <require from="../../reader/data-structures/slot-states"></require>
+    <require from="./position-map"></require>
+    <require from="toastr/build/toastr.min.css"></require>
+
+    <div class="col-sm-9 body-content">
+
+        <span class="container-fluid">
+            <p>
+            <p>
+                <label class="panel-title">${boxDisplay.title}</label>
+            </p>
+        </span>
+        <label if.bind="boxDisplay.batteryLife !== 0" style="position: absolute; top: 0px; right: 0px;">Battery ${boxDisplay.batteryLife}%</label>
+        <!-- Separator -->
+        <div>
+            <hr />
+        </div>
+
+        <label>${boxDisplay.subtitle}</label>
+
+        <!--The tag display-->
+        <div class="row" align="left">
+            <div if.bind="boxDisplay.loading" class="loader"></div>
+            <position-map slots.bind="boxDisplay.slots"></position-map>
+        </div>
+
+        <button disabled.bind="!boxDisplay.canUpdateDb" class="btn btn-primary" click.delegate="confirm()">Confirm</button>
+
+        <!-- Separator -->
+        <div>
+            <hr />
+        </div>
+
+        <div class="form-group col-sm-3">
+            <label>Labelled </label>
+            <input type="text" value.bind="boxDisplay.boxName" class="form-control" />
+        </div>
+
+        <div class="row"></div>
+        <label class="form-group col-sm-3">Storage Location</label>
+        <div class="row"></div>
+        <div>
+            <!-- Parent Dropdown Menu -->
+            <div if.bind="boxDisplay.usingSecondDropMenu" class="col-sm-3">
+                <select value.bind="boxDisplay.gParent" class="form-control" align="left" change.delegate="boxDisplay.gParentChangedEvent(boxDisplay.gParent.uid)">
+                    <option repeat.for="item of boxDisplay.gParents" model.bind="item">${item.name}</option>
+                </select>
+            </div>
+
+            <div class="col-sm-3">
+                <select value.bind="boxDisplay.parent" class="form-control" align="left" change.delegate="boxDisplay.parentChangedEvent(boxDisplay.parent.uid)">
+                    <option repeat.for="item of boxDisplay.parents" model.bind="item">${item.name}</option>
+                </select>
+            </div>
+            <!-- Parent Dropdown Menu -->
+            <button show.bind="( (boxDisplay.parent.uid !== boxDisplay.currentParentUid && boxDisplay.parent.uid !== '') || (boxDisplay.storageOperations.storageItem.description !== boxDisplay.boxName && boxDisplay.boxName !== '') ) && (boxDisplay.storageOperations.fsm.currentState === 1)" class="btn btn-primary" click.delegate="update()">Update</button>
+            <button if.bind="(boxDisplay.storageOperations.fsm.currentState === 2 && boxDisplay.boxName !== '')" class="btn btn-primary" click.delegate="register()">Register</button>
+       
+        </div>
+
+        <div class="row"></div>
+
+        <!-- Separator -->
+        <div>
+            <hr />
+        </div>
+
+        <button title="View Temperature"
+                type="button"
+                class="btn btn-success btn-xl"
+                if.bind="boxDisplay.canViewTemperatureStats"
+                click.delegate="launchTemperatureStatsDlg()">
+            View Temperature
+        </button>
+    </div>
+</template>

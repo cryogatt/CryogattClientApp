@@ -1,0 +1,82 @@
+﻿<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <IsPackable>false</IsPackable>
+    <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="ClientApp\app\components\items\materials10x1\**" />
+    <Compile Remove="wwwroot\dist\DataTables\**" />
+    <Content Remove="ClientApp\app\components\items\materials10x1\**" />
+    <Content Remove="wwwroot\dist\DataTables\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\items\materials10x1\**" />
+    <EmbeddedResource Remove="wwwroot\dist\DataTables\**" />
+    <None Remove="ClientApp\app\components\items\materials10x1\**" />
+    <None Remove="wwwroot\dist\DataTables\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="jquery.TypeScript.DefinitelyTyped" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
+    <PackageReference Include="TypeState" Version="1.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Files not to show in IDE -->
+    <None Remove="ClientApp\app\components\api\reader-api-path-broker.ts" />
+    <None Remove="ClientApp\app\components\items\Disposal\disposal-list.ts" />
+    <None Remove="ClientApp\app\components\items\history\ContainerStatus.ts" />
+    <None Remove="ClientApp\app\components\items\materials\batch\cryobank.ts" />
+    <None Remove="ClientApp\app\components\items\materials\batch\safety-duplication.ts" />
+    <None Remove="ClientApp\app\components\items\materials\batch\tested.ts" />
+    <None Remove="ClientApp\app\components\items\materials\materials-ten-by-one.ts" />
+    <None Remove="ClientApp\app\components\items\storage-reader-operations\assignment\storage-ten-by-one-assignment.ts" />
+    <None Remove="ClientApp\app\components\items\storage-reader-operations\booking-operations\storage-cold-box-slots-booking-operations.ts" />
+    <None Remove="ClientApp\app\components\items\storage-reader-operations\container-status-dialogue.ts" />
+    <None Remove="ClientApp\app\components\items\storage-reader-operations\disposal\storage-bulk-disposal.ts" />
+    <None Remove="ClientApp\app\components\items\storage-reader-operations\scan-againest-list\storage-cold-box-scan-againest-list.ts" />
+    <None Remove="yarn.lock" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\app\components\images\" />
+    <Folder Include="ClientApp\app\components\plugins\au-table-0-1-13\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\api\reader-api-path-broker.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\Disposal\disposal-list.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\history\ContainerStatus.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\materials\batch\cryobank.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\materials\batch\safety-duplication.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\materials\batch\tested.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\materials\materials-ten-by-one.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\storage-reader-operations\assignment\storage-ten-by-one-assignment.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\storage-reader-operations\booking-operations\storage-cold-box-slots-booking-operations.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\storage-reader-operations\container-status-dialogue.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\storage-reader-operations\disposal\storage-bulk-disposal.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\items\storage-reader-operations\scan-againest-list\storage-cold-box-scan-againest-list.ts" />
+  </ItemGroup>
+  <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec Command="npm install" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env.prod" />
+    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

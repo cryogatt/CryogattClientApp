@@ -1,0 +1,9 @@
+﻿<template bindable="contents,storage">
+    <button type="button"
+            class="btn btn-primary btn-lg"
+            if.bind="contents.canAddToShipment"
+            ensure.bind="contents.canAddToShipment"
+            click.delegate="storage.addToShipment()">
+        Add
+    </button>
+</template>

@@ -1,0 +1,95 @@
+﻿.loader {
+    position: absolute;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    left: 17vw;
+    top: 40vh;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    z-index: 999;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*body {
+    font-size: 4px;
+}*/
+
+.battery {
+    display: inline-block;
+    width: 1.4em;
+    height: 2.5em;
+    border: .25em solid white;
+    border-width: .12em .25em;
+    box-shadow: 0 0 0 .35em black;
+    margin: 1em .35em .35em;
+    position: relative;
+    background-color: black;
+    background-image: linear-gradient(180deg, white .15em, white .15em, transparent .15em, transparent .5em, white .5em, white .75em, transparent .75em, transparent 1.12em, white 1.5em, white 1.5em, transparent 1.15em, transparent 1.75em, white 1.25em, white 2em, transparent 2em, transparent 2.12em, white 2.12em );
+    background-size: 100%;
+}
+
+    .battery:before {
+        position: absolute;
+        top: -1.12em;
+        left: 0em;
+        display: block;
+        background: black;
+        width: 1em;
+        height: .35em;
+        content: "";
+        border-radius: .25em .25em 0 0;
+    }
+
+    .battery:after {
+        position: absolute;
+        top: 0em;
+        left: 0em;
+        display: block;
+        background: white;
+        width: 1.12em;
+        height: 0;
+        content: "";
+    }
+
+    .battery.level-75:after {
+        height: .5em;
+    }
+
+    .battery.level-50:after {
+        height: 1.12em;
+    }
+
+    .battery.level-25:after {
+        height: 1.75em;
+    }
+
+    .battery.level-25 {
+        background-color: red;
+    }
+
+    .battery.level-0:after {
+        height: 2.12em;
+    }

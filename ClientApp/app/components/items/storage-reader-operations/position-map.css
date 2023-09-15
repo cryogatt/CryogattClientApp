@@ -1,0 +1,43 @@
+﻿position-map {
+    padding-top: 2%;
+    padding-right: 20%;
+}
+
+.assignment-cell {
+    max-width: 90px;
+}
+
+.assignment-cell-circle {
+    max-width: 60px;
+}
+
+.box-cell {
+    max-width: 7vw;
+    max-height: 7vh;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute-text {
+    position: absolute;
+    bottom: calc(0% - 8px);
+    font-size: 0.7em;
+    font-family: "vedana";
+    color: black;
+    background: rgba(251,251,251,0.7);
+    padding: 3px 3px;
+    text-align: left;
+}
+
+.absolute-text a {
+    font-size: 0.7em;
+    color: #b92b27;
+}
+
+#center {
+    position: absolute;
+    left: 40%;
+    right: 40%;
+}

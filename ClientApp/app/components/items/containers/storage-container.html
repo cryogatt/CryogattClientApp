@@ -1,0 +1,58 @@
+﻿<template bindable="container,mode,type,contained-type">
+    <require from="../../utils/date-picker"></require>
+    <require from="bootstrap-daterangepicker/daterangepicker.css"></require>
+    <require from="./storage-container.css"></require>
+    <require from="../../utils/format-value-converter"></require>
+    <require from="../../utils/numeric-value-converter"></require>
+    <require from="../../utils/numeric-value"></require>
+    <require from="../storage-modal-mode"></require>
+
+    <div class="container container-properties">
+
+        <!-- Name -->
+        <div class="form-group">
+            <label>Name *</label>
+            <input type="text" value.bind="container.name" class="form-control" autofocus disabled.bind="mode === StorageModalMode.VIEW" />
+        </div>
+
+        <!-- General Type -->
+        <div if.bind="mode == StorageModalMode.CREATE" class="form-group">
+            <label>Type *</label>
+            <select value.bind="generalType" class="form-control" change.delegate="loadSubTypes()">
+                <option if.bind="generalType" repeat.for="item of generalTypes" model.bind="item">${item.description}</option>
+            </select>
+        </div>
+
+        <!-- Subtypes -->
+        <div class="form-group">
+            <label>Model *</label>
+            <select value.bind="container.type" class="form-control" change.delegate="subTypeSelected()" disabled.bind="mode !== StorageModalMode.CREATE">
+                <option if.bind="container.type">${container.type}</option>
+                <option if.bind="!container.type">Select the model..</option>
+                <option if.bind="subtypes" repeat.for="item of subtypes" model.bind="item.description">${item.description}</option>
+            </select>
+        </div>
+
+        <!-- Added -->
+        <div class="form-group">
+            <label>Added *</label>
+            <date-picker value.bind="container.addedDate" model.bind="container.addedDate" enabled.bind="mode === StorageModalMode.CREATE"/>
+        </div>
+
+        <!-- Contains Quantity -->
+        <div class="form-group">
+            <label if.bind="canShowQty">Contains Qty *</label>
+            <input type="number" if.bind="canShowQty" numeric-value.bind="container.containsQty | numeric" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+        </div>
+
+        <!-- Contained Types -->
+        <div if.bind="canShowContainsType" class="form-group">
+            <label>Contains Model *</label>
+            <select class="form-control" value.bind="container.containsType" disabled.bind="container.containsQty <= 0">
+                <option repeat.for="item of containedTypes" model.bind="item.description">${item.description}</option>
+            </select>
+        </div>
+
+    </div>
+
+</template>

@@ -1,0 +1,394 @@
+﻿<template>
+    <require from="../plugins/au-table-0-1-13/au-table"></require>
+    <require from="../plugins/au-table-0-1-13/au-table-select"></require>
+    <require from="../plugins/au-table-0-1-13/au-table-sort"></require>
+    <require from="../plugins/au-table-0-1-13/au-table-pagination"></require>
+    <require from="./generic-storage.css"></require>
+    <require from="../utils/keys-value-converter"></require>
+    <require from="../utils/format-value-converter"></require>
+    <require from="./containers/storage-containers.html"></require>
+    <require from="./materials/storage-materials.html"></require>
+    <require from="./distribution/storage-orders.html"></require>
+    <require from="./distribution/contents/storage-contents.html"></require>
+    <require from="../utils/recursive-router-button"></require>
+    <require from="../utils/router-button"></require>
+    <require from="../utils/limit-to-value-converter"></require>
+    <require from="./containers/location-map"></require>
+    <require from="toastr/build/toastr.min.css"></require>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9 body-content">
+
+                <!-- List view title -->
+                <div class="row">
+                    <location-map class="pull-left"
+                                  if.bind="storage.items && storage.type_singular.toLowerCase() == 'sample' && parentContainer.ContainerType === 'Box'"
+                                  vials.bind="storage.items"></location-map>
+                    <h1 class="header">${storage.title}</h1>
+                    <h1><small class="storage-subtitle">${storage.subtitle}</small></h1>
+                    <h3>${storage.subsubtitle}</h3>
+
+                    <div if.bind="storage.storageType === 'material'">
+                        <span class="table-search">
+                            <span class="form-inline">
+                                <span class="form-group pull-left">
+                                    <label>
+                                        Filter By Crop:<br />
+                                    </label>
+                                    <select value.bind="storage.selectedCrop" class="form-control" change.delegate="storage.filterUsingSelectedCrop($event)">
+                                        <option model.bind="null">All...</option>
+                                        <option repeat.for="item of storage.filterByCropData"
+                                                model.bind="item">
+                                            ${item}
+                                        </option>
+                                    </select>
+
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                    <span class="table-search">
+                        <span class="form-inline">
+                            <span class="form-group pull-right">
+                                <span class="glyphicon glyphicon-search" />
+                                <input type="text" value.bind="storage.dataFilters[0].value & debounce" class="form-control search-text" />
+                            </span>
+                        </span>
+                    </span>
+                </div>
+
+                <!-- Separator -->
+                <div class="row header-separator">
+                    <hr />
+                </div>
+
+                <!-- Loading image if no items present? -->
+                <div class="row">
+                    <p if.bind="(!storage.items) && (!storage.canUseReader)"><em>Loading...</em></p>
+                    <p if.bind="(!storage.items) && (storage.canUseReader)"><em>Please start scanning items to begin..</em></p>
+                </div>
+
+                <div class="row table-actions">
+
+                    <!-- Show x entries selection -->
+                    <div class="form-inline">
+                        <div class="form-group pull-left">
+                            <label for="pageSize">Show</label>
+                            <select value.bind="storage.pageSize" id="pageSize" class="form-control">
+                                <option model.bind="5">5</option>
+                                <option model.bind="10">10</option>
+                                <option model.bind="20">20</option>
+                                <option model.bind="50">50</option>
+                            </select>
+                            <label for="pageSize">entries</label>
+                        </div>
+                    </div>
+
+                    <!-- Specific filters for order -->
+                    <div class="OrderFilter" if.bind="orders.canViewInbound || orders.canViewOutbound">
+                        <div class="form-inline">
+                            <div class="form-group pull-right">
+                                <label for="show me">Show me..</label>
+                                <button type="button"
+                                        class="btn btn-primary btn-xl"
+                                        click.delegate="nonFilter()">
+                                    All
+                                </button>
+                                <button title="Display only incoming orders"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="orders.canViewInbound"
+                                        click.delegate="inboundFilter()">
+                                    Inbound
+                                </button>
+                                <button title="Display only outgoing orders"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="orders.canViewOutbound"
+                                        click.delegate="outboundFilter()">
+                                    Outbound
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pick List and other checkbox selection functionality -->
+                    <div class="picklist-actions" if.bind="storage.canUpdatePickList || storage.canDeleteItem">
+                        <div class="form-inline">
+                            <div class="form-group pull-right">
+                                <label for="picklist-actions">
+                                    <span class="glyphicon glyphicon-check"></span>Selected items
+                                </label>
+                                <button title="Clear checked item from list"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canDeleteItem"
+                                        click.delegate="delete()">
+                                    Delete
+                                </button>
+                                <button title="Clear checked item from picklist"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canDeleteFromPickList"
+                                        click.delegate="storage.deleteFromPickList()">
+                                    Delete from Pick List
+                                </button>
+                                <button title="Add all samples that belong to the same batch as the checked samples"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canAddBatchToPickList && !storage.canAddToPickList"
+                                        click.delegate="storage.addBatchToPickList()">
+                                    Add Batch to Pick List
+                                </button>
+                                <button title="Add checked items to picklist"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canAddToPickList && !storage.canAddBatchToPickList"
+                                        click.delegate="storage.addToPickList()">
+                                    Add to Pick List
+                                </button>
+                                <select if.bind="storage.canAddToPickList && storage.canAddBatchToPickList"
+                                        value.bind="storage.isBatchPickListSelection" class="form-control">
+                                    <option title="Add checked items to picklist" model.bind="false">Add to Pick List</option>
+                                    <option title="Add all samples that belong to the same batch as the checked samples" model.bind="true">Add Batch to Pick List</option>
+                                </select>
+                                <button type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canAddToPickList && storage.canAddBatchToPickList"
+                                        click.delegate="storage.addToPickList()">
+                                    Proceed
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Table -->
+                        <table if.bind="storage.items"
+                               class="table table-striped"
+                               aurelia-table="data.bind: storage.items;
+                                          display-data.bind: $dataItems;
+                                          current-page.bind: storage.currentPage;
+                                          page-size.bind: storage.pageSize;
+                                          total-items.bind: storage.totalItems;
+                                          filters.bind: storage.dataFilters;
+                                          api.bind: storage.tableApi;">
+                            <thead>
+                                <tr>
+                                    <!-- Column headings -->
+                                    <th if.bind="storage.canUpdatePickList || storage.canDeleteItem || contents.canAddToShipment">
+                                        <input type="checkbox"
+                                               checked.bind="storage.selectAll"
+                                               change.delegate="storage.selectAllForPickList()" />
+                                    </th>
+                                    <th if.bind="storage"
+                                        repeat.for="[column,heading] of storage.schema"
+                                        show.bind="heading.toLowerCase() !== 'uid'"
+                                        aut-sort="key.bind: column"
+                                        class="aut-sortable">${heading & signal:'items-update-signal'}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <!-- For pick list selection -->
+                                <tr if.bind="(storage.canUpdatePickList || storage.canDeleteItem) && !(contents.canAddToShipment) && !(storage.selectMultiple)"
+                                    repeat.for="item of $dataItems"
+                                    aut-select="row.bind: item; mode: single; selected-class: info"
+                                    select.delegate="storage.rowSelected($event)">
+                                    <td>
+                                        <input type="checkbox"
+                                               checked.bind="item.$isPicked" />
+                                    </td>
+                                    <!-- This makes the assumption that new keys, e.g. $isPicked, $isSelected, are added to the end -->
+                                    <td repeat.for="key of item | keys | limitTo: storage.schema.size"
+                                        show.bind="key.toLowerCase() !== 'uid'">
+                                        ${$parent.item[key] | format: storage.type_singular.toLowerCase() & signal:'items-update-signal'}
+                                    </td>
+                                </tr>
+                                <!-- For selecting checkboxes for adding to shipments -->
+
+                                <tr if.bind="contents.canAddToShipment"
+                                    repeat.for="item of $dataItems"
+                                    aut-select="row.bind: item; mode: single; selected-class: info"
+                                    select.delegate="storage.rowSelected($event)">
+                                    <td>
+                                        <input type="checkbox"
+                                               checked.bind="item.$isPicked" />
+                                    </td>
+                                    <!-- This makes the assumption that new keys, e.g. $isPicked, $isSelected, are added to the end -->
+                                    <td repeat.for="key of item | keys | limitTo: storage.schema.size"
+                                        show.bind="key.toLowerCase() !== 'uid'">
+                                        ${$parent.item[key] | format: storage.type_singular.toLowerCase() & signal:'items-update-signal'}
+                                    </td>
+                                </tr>
+                                <!-- For selecting multiple rows with checkbox pick list feature -->
+                                <tr if.bind="storage.selectMultiple"
+                                    repeat.for="item of $dataItems"
+                                    aut-select="row.bind: item; mode: multiple; selected-class: info"
+                                    select.delegate="storage.rowSelected($event)">
+                                    <td>
+                                        <input type="checkbox"
+                                               checked.bind="item.$isPicked" />
+                                    </td>
+                                    <!-- This makes the assumption that new keys, e.g. $isPicked, $isSelected, are added to the end -->
+                                    <td repeat.for="key of item | keys | limitTo: storage.schema.size"
+                                        show.bind="key.toLowerCase() !== 'uid'">
+                                        ${$parent.item[key] | format: storage.type_singular.toLowerCase() & signal:'items-update-signal'}
+                                    </td>
+                                </tr>
+                                <!-- Without any selection -->
+
+                                <tr if.bind="!(storage.canUpdatePickList || storage.canDeleteItem) && !(contents.canAddToShipment) && !(storage.selectMultiple)"
+                                    repeat.for="item of $dataItems"
+                                    aut-select="row.bind: item; mode: single; selected-class: info"
+                                    select.delegate="storage.rowSelected($event)">
+
+                                    <td repeat.for="key of item | keys | limitTo: storage.schema.size"
+                                        show.bind="key.toLowerCase() !== 'uid'">
+                                        ${$parent.item[key] | format: storage.type_singular.toLowerCase() & signal:'items-update-signal'}
+                                    </td>
+                                </tr>
+                </tbody>
+
+                </table>
+
+                <aut-pagination class="pull-right"
+                                current-page.bind="storage.currentPage"
+                                page-size.bind="storage.pageSize"
+                                total-items.bind="storage.totalItems"
+                                pagination-size.bind="5"
+                                boundary-links.bind="false"
+                                hide-single-page.bind="false"></aut-pagination>
+            </div>
+
+                        <!-- Separator -->
+                        <div class="row">
+                            <hr />
+                        </div>
+
+                        <!-- Command button row -->
+                        <div class="storage-cmd-row">
+                            <button title="${storage.createItemInfo}"
+                                    type="button"
+                                    class="btn btn-primary btn-xl"
+                                    if.bind="storage.canCreateItem"
+                                    click.delegate="create()">
+                                Create New ${storage.type_singular}
+                            </button>
+                            <button title="View selected item"
+                                    type="button"
+                                    class="btn btn-primary btn-xl"
+                                    if.bind="storage.canViewItem"
+                                    disabled.bind="!(storage.selectedItem && storage.selectedItem.$isSelected)"
+                                    click.delegate="view()">
+                                View
+                            </button>
+                            <button title="Edit selected item"
+                                    type="button"
+                                    class="btn btn-primary btn-xl"
+                                    if.bind="storage.canEditItem"
+                                    disabled.bind="!(storage.selectedItem && storage.selectedItem.$isSelected)"
+                                    click.delegate="edit()">
+                                Edit
+                            </button>
+                            <recursive-router-button if.bind="orders.canViewContents"
+                                                     enabled.bind="(storage.selectedItem && storage.selectedItem.$isSelected) && (storage.selectedItem.sample_qty !== 0)"
+                                                     title="View Contents"
+                                                     route="ViewContents"
+                                                     id.bind="storage.selectedItem.uid"
+                                                     path.bind="'Contents'"
+                                                     name.bind="storage.subtitle + ' ' + storage.type_singular + ' ' + storage.selectedItem.Name"></recursive-router-button>
+                            <recursive-router-button if.bind="orders.canAddContentsButton"
+                                                     enabled.bind="(storage.selectedItem && storage.selectedItem.$isSelected) && storage.selectedItem.status == 'Awaiting-Dispatch'"
+                                                     title="Add Contents"
+                                                     route="addContents"
+                                                     id.bind="storage.selectedItem.uid"
+                                                     path.bind="'Contents'"
+                                                     name.bind="storage.subtitle + ' ' + storage.type_singular + ' ' + storage.selectedItem.Name"></recursive-router-button>
+                            <router-button if.bind="storage.canViewHistory"
+                                           title="View History"
+                                           route="history"
+                                           params.bind="(storage.selectedItem && storage.selectedItem.$isSelected) ? storage.selectedItem.uid : ''"
+                                           enabled.bind="storage.selectedItem && storage.selectedItem.$isSelected"></router-button>
+                            <button title="View the contents of the selected item"
+                                    type="button"
+                                    class="btn btn-primary btn-xl"
+                                    if.bind="containers.canViewAliquots"
+                                    disabled.bind="!(storage.selectedItem && storage.selectedItem.$isSelected) || (storage.selectedItem.containsQty === 0) "
+                                    click.delegate="viewContents()">
+                                View Contents
+                            </button>
+                            <!-- Container-specific buttons -->
+                            <storage-containers containers.bind="containers"
+                                                storage.bind="storage"></storage-containers>
+                            <!-- Material-specific buttons -->
+                            <storage-materials materials.bind="materials"
+                                               storage.bind="storage"></storage-materials>
+                            <!-- Order-specific buttons -->
+                            <storage-orders orders.bind="orders"
+                                            storage.bind="storage"></storage-orders>
+                            <!-- Contents-specific buttons -->
+                            <storage-contents contents.bind="contents"
+                                              storage.bind="storage"></storage-contents>
+                            <div class="form-group pull-right">
+                                <button title="Clear the current items and start again"
+                                        type="button"
+                                        class="btn btn-primary btn-xl"
+                                        if.bind="storage.canUseResetBtn"
+                                        click.delegate="reset()">
+                                    Reset
+                                </button>
+                                <button title="Update the database"
+                                        type="button"
+                                        class="btn btn-success btn-xl"
+                                        if.bind="contents && storage.canUseReader && storage.canUpdateDb"
+                                        click.delegate="confirm()">
+                                    Confirm
+                                </button>
+                                <button type="button"
+                                        class="btn btn-info btn-xl"
+                                        if.bind="((readerService.canConnect) && (storage.canAuditItems) && !(storage.canUpdateDb))"
+                                        click.delegate="audit()">
+                                    ${storage.commandBtnTxt}
+                                </button>
+                                <button title="Inform the database that the items have been audited"
+                                        type="button"
+                                        class="btn btn-success btn-xl"
+                                        if.bind="((readerService.canConnect) && (storage.canAuditItems) && (storage.canUpdateDb))"
+                                        disabled.bind="!(storage.selectedItem && storage.selectedItem.$isSelected)"
+                                        click.delegate="confirmAudit()">
+                                    Confirm Audit
+                                </button>
+                                <button title="Inform the database that the items are now stored"
+                                        type="button"
+                                        class="btn btn-success btn-xl"
+                                        if.bind="storage.canStoreItems"
+                                        disabled.bind="!(storage.canUpdateDb)"
+                                        click.delegate="store()">
+                                    Store
+                                </button>
+                                <button title="Inform the database that the items are now withdrawn"
+                                        type="button"
+                                        class="btn btn-default btn-xl"
+                                        style="background-color:deeppink; color:white;"
+                                        if.bind="storage.canWithdrawItems"
+                                        disabled.bind="!(storage.canUpdateDb)"
+                                        click.delegate="withdraw()">
+                                    Withdraw
+                                </button>
+                                <button title="Mark an item as disposed"
+                                        type="button"
+                                        class="btn btn-success btn-xl"
+                                        if.bind="storage.canDisposeItems"
+                                        disabled.bind="!(readerService.canConnect)"
+                                        click.delegate="dispose()">
+                                    Dispose Item
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</template>

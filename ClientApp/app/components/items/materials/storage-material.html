@@ -1,0 +1,125 @@
+﻿<template>
+    <require from="../../utils/date-picker"></require>
+    <require from="bootstrap-daterangepicker/daterangepicker.css"></require>
+    <require from="./storage-material.css"></require>
+    <require from="../../utils/format-value-converter"></require>
+    <require from="../../utils/numeric-value-converter"></require>
+    <require from="../../utils/numeric-value"></require>
+    <require from="../storage-modal-mode"></require>
+    
+    <div class="container">
+        <div class="col-sm-4 material-properties">
+
+            <!-- Batch -->
+            <div class="form-group col-sm-12">
+                <label>Batch ID*</label>
+                <input type="text" value.bind="material.name" class="form-control" autofocus disabled.bind="mode == StorageModalMode.VIEW" />
+            </div>
+
+            <!-- Name / Type -->
+            <div class="form-group col-sm-12">
+                <label>Crop Name *</label>
+                <div class="autocomplete">
+                    <!--<input type="text" value.bind="material.materialInfo[0].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />-->
+                    <input type="text" list="allCrops"  value.bind="material.materialInfo[0].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    <datalist id="allCrops">
+                        <option repeat.for="item of cropList">${item}</option>
+                    </datalist>
+                    <!--<ul>
+        <li repeat.for="item of crops">
+            ${item}
+        </li>
+    </ul>-->
+                </div>
+            </div>
+
+
+            <!-- Accession No. -->
+            <div class="form-group col-sm-12">
+                <label>Accession No *</label>
+                <input type="text" value.bind="material.materialInfo[1].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+            </div>
+
+            <!-- Line No. -->
+            <div class="form-group col-sm-12">
+                <label>Line No *</label>
+                <input type="text" value.bind="material.materialInfo[2].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+            </div>
+
+            <!-- Introduction Date -->
+            <div class="form-group col-sm-12">
+                <label>Introduction Date</label>
+                <input type="text" value.bind="material.materialInfo[3].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+            </div>
+
+        </div>
+
+        <div class="col-sm-8">
+
+            <div class="form-group cryo-quantities">
+                <div class="form-group col-sm-3">
+                    <label>Qtty Cryo</label>
+                    <input type="number" numeric-value.bind="material.cryoSeedQty + material.testedSeedQty + material.sDSeedQty | numeric" class="form-control" disabled />
+                </div>
+                <!-- Viability Tested -->
+                <div class="form-group col-sm-3">
+                    <label>Viability Tested</label>
+                    <input type="number" numeric-value.bind="material.testedSeedQty | numeric" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+                <!-- Cryobank -->
+                <div class="form-group col-sm-3">
+                    <label>Cryobank</label>
+                    <input type="number" numeric-value.bind="material.cryoSeedQty | numeric" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+                <!-- Safety Duplication -->
+                <div class="form-group col-sm-3">
+                    <label>Safety Duplication</label>
+                    <input type="number" numeric-value.bind="material.sDSeedQty | numeric" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <!-- Cryo Date -->
+                    <div class="form-group col-sm-6 cryo-date">
+                        <label>Cryo Date</label>
+                        <input value.bind="material.materialInfo[5].value"  class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+
+                    <!-- Viability Culture Date -->
+                    <div class="form-group col-sm-6 cryo-date">
+                        <label>Viability Culture Date</label>
+                        <input value.bind="material.materialInfo[6].value"  class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!-- Regrowth Observation Date -->
+                    <div class="form-group col-sm-6">
+                        <label>Regrowth Observation Date</label>
+                        <input value.bind="material.materialInfo[11].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+
+                    <!-- Regrowth Rate -->
+                    <div class="form-group col-sm-6">
+                        <label>Regrowth Rate (% after 12 weeks)</label>
+                        <input value.bind="material.materialInfo[8].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+                    <!-- SN -->
+                    <div class="form-group col-sm-6">
+                        <label>SN</label>
+                        <input value.bind="material.materialInfo[9].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+                    <!-- Health Status -->
+                    <div class="form-group col-sm-6">
+                        <label>Health Status</label>
+                        <input value.bind="material.materialInfo[4].value" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>

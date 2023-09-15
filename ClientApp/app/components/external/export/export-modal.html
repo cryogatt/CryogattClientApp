@@ -1,0 +1,45 @@
+﻿<template>
+    <require from="../../items/generic-storage.css"></require>
+    <require from="../../items/generic-storage-modal.css"></require>
+    <require from="./export-modal.css"></require>
+    <require from="../../utils/date-range-picker"></require>
+    <require from="bootstrap-daterangepicker/daterangepicker.css"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+
+            <!-- Close button -->
+            <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <!-- Title -->
+            <h4 class="modal-title">Export Existing Records</h4>
+
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="form-group export-range">
+                <label>Select Data for Export *</label>
+                <date-range-picker date-range.bind="dateRange" enabled.bind="true"/>
+            </div>
+        </div>
+
+        <!-- Modal footer, command button row -->
+        <div class="modal-footer">
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+
+            <button type="button" class="btn btn-primary" click.trigger="export()">Export</button>
+            <button type="button" class="btn btn-primary" click.trigger="controller.cancel()">Cancel</button>
+        </div>
+    </ux-dialog>
+</template>

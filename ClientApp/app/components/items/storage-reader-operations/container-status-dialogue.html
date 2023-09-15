@@ -1,0 +1,42 @@
+﻿<template>
+    <require from="../../items/generic-storage.css"></require>
+    <require from="../../items/generic-storage-modal.css"></require>
+    <require from="../../utils/router-button"></require>
+    <require from="../../utils/recursive-router-button"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+            <div class="col-sm-12">
+
+                <!-- Title -->
+                <label class="modal-title">${title}</label>
+
+                <!-- Separator -->
+                <div>
+                    <hr />
+                </div>
+
+                <div class="modal-body" align="left">
+
+                    <!-- subtitle -->
+                    <p class="modal-title">${subtitle}</p>
+
+                    <div>
+                        <label>Reason *</label>
+                        <select value.bind="reason" class="form-control">
+                            <option repeat.for="item of reasons" model.bind="item">${item}</option>
+                        </select>
+                    </div>
+
+                    <!-- Modal footer, command button row -->
+                    <div class="modal-footer">
+                        <div style="padding-top: 20px; position: center">
+                            <button type="button" class="btn btn-primary" click.trigger="save()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ux-dialog>
+</template>

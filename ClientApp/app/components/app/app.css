@@ -1,0 +1,21 @@
+@media (max-width: 1025px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    .body-content {
+        padding-top: 50px;
+    }
+}
+
+.software-version {
+    position: fixed;
+    width: calc(25% - 65px);
+    height: calc(15% - 30px);
+    padding-right: 5px;
+    padding-bottom: 22px;
+    padding-top: 5px;
+    padding-left: 0px;
+    bottom: 15px;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    color: #9d9d9d;
+}
+

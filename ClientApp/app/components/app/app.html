@@ -1,0 +1,163 @@
+<template>
+    <require from="./app.css"></require>
+    <require from="../navmenu/navmenu.css"></require>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <!-- Navigation bar -->
+                <div class="col-sm-2" ss-container>
+                    <div class="main-nav">
+                        <div class="navbar navbar-inverse">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <img class="navbar-brand" href="#/home" src="../navmenu/logo.png" 
+                                     style="width: calc(50%); height: calc(25%); padding-left:calc(1%) "/>
+                                <!-- Site identification -->
+
+                                <!-- Software versioning -->
+                                <!--<div class="software-version">${softwareVersion}</div>-->
+                                <div class="software-version">
+                                    <img src="../navmenu/Cryogatt_Logo-l.png" class="software-version"/>
+                                    <label style="text-emphasis-color:ghostwhite; padding-top:18%; padding-left:35%;">0203 582 5257</label>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav">
+
+                                    <!-- Sample / Storage navigation -->
+                                    <li>
+                                        <a title="Search for samples either by their label, characteristics or storage location" href="#records" data-toggle="collapse" aria-expanded="true" if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" style="color: lightblue; font-weight: bold; padding-left: 20px">Create / View Records <span class="fa fa-caret-down"></span></a>
+                                        <ul if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" class="nav navbar-nav collapse" id="records">
+                                            <li>
+                                                <a title="Search for samples by their storage location" href="#/containers">
+                                                    <span class="glyphicon glyphicon-th-list"></span>Storage Records
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                                <a title="Search for samples either by their batch or characteristics" href="#/materials">
+                                                    <span class="glyphicon glyphicon-leaf"></span>Sample Records
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Booking In/Out navigation -->
+                                    <li>
+                                        <a title="Using the readers assign your samples into the database then book them in & of storage" href="#storageOperations" data-toggle="collapse" aria-expanded="true" if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" style="color:lightblue; font-weight:bold; padding-left: 20px">Storage Operations <span class="fa fa-caret-down"></span></a>
+                                        <ul if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" class="nav navbar-nav collapse" id="storageOperations">
+                                            <li>
+                                                <a title="Assign items into the database &#13;&#10; Start here to assign samples to a particular batch of material or assign new storage items using a 10x1 reader" href="#" show.bind="readerService.canConnect" click.delegate="assignment()">
+                                                    <span class="glyphicon glyphicon-tags"></span>Single Assignment
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Assign items into the database &#13;&#10; Start here to assign samples to a particular batch of material or assign new storage items" href="#" show.bind="readerService.canConnect" click.delegate="assignmentTenByOne()">
+                                                    <span class="glyphicon glyphicon-th"></span>10x1 Assignment
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Book samples in & out of storage" href="#boxSlotBookingOperations" show.bind="readerService.canConnect">
+                                                    <span class="glyphicon glyphicon-sort"></span>Booking In/Out
+                                                </a>
+                                            </li>
+                                            <!--<li>
+                                                <a title="Book samples in & out of storage" href="#coldBoxSlotBookingOperations" show.bind="readerService.canConnect">
+                                                    <span class="glyphicon glyphicon-sort"></span>Booking In/Out
+                                                </a>
+                                            </li>-->
+                                            <!--<li>
+                                                <a title="Book samples in & out of storage" href="#bulkBookingOperations" show.bind="readerService.canConnect">
+                                                    <span class="glyphicon glyphicon-tags"></span>Booking In/Out
+                                                </a>
+                                            </li>-->
+                                            <li>
+                                                <a title="Carry out a planned withdrawal by booking out samples againest the picklist" href="#/picklist">
+                                                    <span class="glyphicon glyphicon-shopping-cart"></span>Pick List
+                                                </a>
+                                            </li>
+                                            <!--<li>
+                                                <a title="Create & View Disposed items" href="#/disposal">
+                                                    <span class="glyphicon glyphicon-trash"></span>Disposed Items
+                                                </a>
+                                            </li>-->
+                                        </ul>
+                                    </li>
+
+                                    <!-- Distribution navigation -->
+                                    <!--<li>
+                                        <a title="Ship samples from site to site" href="#orders" data-toggle="collapse" aria-expanded="true" if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" style="color:lightblue; font-weight:bold; padding-left: 20px">Distribution <span class="fa fa-caret-down"></span></a>
+                                        <ul if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" class="nav navbar-nav collapse" id="orders">
+                                            <li>
+                                                <a title="Create, View and prepare orders" href="#/listOfOrders">
+                                                    <span class="glyphicon glyphicon-th-list"></span>Orders
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>-->
+
+                                    <!-- External record navigation -->
+                                    <li>
+                                        <a title="Import & Export your records using an Excel spreadsheet (.CSV file)" href="#external" data-toggle="collapse" aria-expanded="true" if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" style="color:lightblue; font-weight:bold; padding-left: 20px">External Records <span class="fa fa-caret-down"></span></a>
+                                        <ul if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" class="nav navbar-nav collapse" id="external">
+                                            <li>
+                                                <a title="Load data from your Excel spreadsheet into the system" href="#" click.delegate="import()">
+                                                    <span class="glyphicon glyphicon-import"></span>Import...
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Export records for a given period to an Excel spreadsheet" href="#" click.delegate="export()">
+                                                    <span class="glyphicon glyphicon-export"></span>Export...
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Administrative tasks -->
+                                    <li>
+                                        <a title="Manage the Users of the system" if.bind="authService.isAuthorised() & signal: 'signal-authentication-changed'" href="#admin" data-toggle="collapse" aria-expanded="true" style="color:lightblue; font-weight:bold; padding-left: 20px">Administration <span class="fa fa-caret-down"></span></a>
+                                        <ul if.bind="authService.isAuthorised() & signal: 'signal-authentication-changed'" class="nav navbar-nav collapse" id="admin">
+                                            <li>
+                                                <a title="Create, View and Edit Users of the system" href="#/users">
+                                                    <span class="glyphicon glyphicon-user"></span>Users
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+
+                                <!-- Logout -->
+                                <div if.bind="authService.isAuthenticated() & signal: 'signal-authentication-changed'" class="dropup nav-logout" style="padding-bottom:5%">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-user nav-user"></span>${authService.getCurrentUser() & signal: 'signal-authentication-changed'}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="user-menu">
+                                        <li click.delegate="authService.logout()">
+                                            <a href="#"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-1 body-content">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
+</template>

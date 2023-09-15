@@ -1,0 +1,78 @@
+﻿<template>
+    <require from="./storage-user.css"></require>
+    <require from="../../utils/format-value-converter"></require>
+    <require from="../storage-modal-mode"></require>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 user-properties">
+
+                <!-- User Name -->
+                <div class="form-group col-sm-12">
+                    <label>User Name *</label>
+                    <input type="text" value.bind="user.userName" class="form-control" disabled.bind="mode !== StorageModalMode.CREATE" />
+                </div>
+
+                <!-- Password -->
+                <div class="form-group col-sm-12">
+                    <label>Password *</label>
+                    <input type="password" value.bind="user.password" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group col-sm-12">
+                    <label>Confirm Password *</label>
+                    <input type="password" value.bind="user.confirmPassword" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+                <!-- First Name -->
+                <div class="form-group col-sm-12">
+                    <label>First Name *</label>
+                    <input type="text" value.bind="user.firstName" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+            </div>
+
+            <div class="col-sm-5  user-properties">
+
+                <!-- Last Name -->
+                <div class="form-group col-sm-12">
+                    <label>Last Name *</label>
+                    <input type="text" value.bind="user.lastName" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+
+                <!-- Email -->
+                <div class="form-group col-sm-12">
+                    <label>Email *</label>
+                    <input type="text" value.bind="user.email" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                </div>
+                <!-- Sites -->
+                <div class="form-group col-sm-12">
+                    <label>Site *</label>
+                    <input type="text" list="site-names" value.bind="user.site" class="form-control" disabled.bind="mode === StorageModalMode.VIEW" />
+                    <datalist id="site-names">
+                        <option repeat.for="item of sites">${item}</option>
+                    </datalist>
+                </div>
+                <!-- Administrator -->
+                <div class="form-group col-sm-12 is-admin">
+                    <div class="form-group">
+                        <label class="checkbox-inline pull-left">
+                            <input type="checkbox" checked.bind="user.isAdministrator" title="Administrator" disabled.bind="mode === StorageModalMode.VIEW">Administrator
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--<div if.bind="user.isAdministrator">
+                <div class="col-sm-2">
+                    <div class="form-group col-sm-12">
+                        <label>Logo</label>
+                        <input type="file" ... files.bind="selectedFiles" change.delegate="inputChange()">
+                    </div>
+                </div>
+            </div>-->
+        </div>
+</template>

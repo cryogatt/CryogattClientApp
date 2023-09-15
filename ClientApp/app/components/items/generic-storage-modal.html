@@ -1,0 +1,49 @@
+﻿<template>
+    <require from="./generic-storage.css"></require>
+    <require from="./generic-storage-modal.css"></require>
+    <require from="./storage-type"></require>
+    <require from="./containers/storage-container"></require>
+    <require from="./materials/storage-material"></require>
+    <require from="./distribution/storage-order"></require>
+    <require from="./users/storage-user"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+
+            <!-- Close button -->
+            <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <!-- Title -->
+            <h4 class="modal-title">${model.title}</h4>
+
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <storage-container if.bind="(model.storageType === StorageType.CONTAINER)" container.bind="model.item" mode.bind="model.mode" type.bind="model.type_singular" contained-type.bind="model.containedType"></storage-container>
+            <storage-material if.bind="(model.storageType === StorageType.MATERIAL)" material.bind="model.item" mode.bind="model.mode"></storage-material>
+            <storage-order if.bind="(model.storageType === StorageType.ORDER)" order.bind="model.item" mode.bind="model.mode"></storage-order>
+            <storage-user if.bind="(model.storageType === StorageType.USER)" user.bind="model.item" mode.bind="model.mode"></storage-user>
+        </div>
+
+        <!-- Modal footer, command button row -->
+        <div class="modal-footer">
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
+
+            <button type="button" class="btn btn-primary" if.bind="model.canSave" click.trigger="save()">Save</button>
+            <button type="button" class="btn btn-primary" if.bind="model.canEdit" click.trigger="edit()">Edit</button>
+            <button type="button" class="btn btn-primary" click.trigger="cancel()">Cancel</button>
+        </div>
+    </ux-dialog>
+</template>

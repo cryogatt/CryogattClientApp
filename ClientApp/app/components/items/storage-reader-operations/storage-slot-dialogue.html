@@ -1,0 +1,81 @@
+﻿<template>
+    <require from="../../items/generic-storage.css"></require>
+    <require from="../../items/generic-storage-modal.css"></require>
+    <require from="../../utils/router-button"></require>
+    <require from="../../utils/recursive-router-button"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+            <div class="col-sm-12">
+
+                <!-- Close button -->
+                <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Title -->
+                <label class="modal-title">${title}</label>
+
+                <!-- Separator -->
+                <div>
+                    <hr />
+                </div>
+
+                <div class="modal-body" align="center">
+
+                    <!--SlotStates.OCCUPIED-->
+                    <div if.bind="slot.slotState === 1">
+                        <img src="../../images/correct.png" />
+                        <!-- Separator -->
+                        <hr />
+                        <label class="modal-header">Batch: ${slot.recordedContainer.batchName}</label>
+                    </div>
+                    <!--SlotStates.MISSING-->
+                    <div if.bind="slot.slotState === 2">
+                        <img src="../../images/missing.png" />
+                        <!-- Separator -->
+                        <hr />
+                        <label class="modal-header">Batch: ${slot.recordedContainer.batchName}</label>
+                    </div>
+                    <!--SlotStates.NEW-->
+                    <div if.bind="slot.slotState === 5">
+                        <img src="../../images/new-vial.png" />
+                        <!-- Separator -->
+                        <hr />
+                        <label class="modal-header">Batch: ${slot.observedContainer.batchName}</label>
+                    </div>
+                    <!--SlotStates.MOVED-->
+                    <div if.bind="slot.slotState === 6">
+                        <img src="../../images/incorrectly-placed.png" />
+                        <!-- Separator -->
+                        <hr />
+                        <label class="modal-header">Batch: ${slot.observedContainer.batchName}</label>
+                    </div>
+                    <!--SlotStates.RESERVED-->
+                    <div if.bind="slot.slotState === 4">
+                        <img src="../../images/error-already-assigned.png" />
+                        <!-- Separator -->
+                        <hr />
+                        <label class="modal-header">Batch: ${slot.recordedContainer.batchName}</label>
+                    </div>
+
+                    <!-- subtitle -->
+                    <p class="modal-title">${subtitle}</p>
+
+                    <!-- Modal footer, command button row -->
+                    <div class="modal-footer">
+                        <div class="form-group button-separator">
+                            <router-button title="View History"
+                                           enabled="true"
+                                           route="history"
+                                           params.bind="(slot.observedContainer) ? slot.observedUid : slot.recordedUid">
+                            </router-button>
+                            <button type="button" class="btn btn-primary" click.trigger="controller.cancel()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ux-dialog>
+</template>

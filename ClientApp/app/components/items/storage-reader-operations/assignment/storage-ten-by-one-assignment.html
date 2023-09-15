@@ -1,0 +1,129 @@
+﻿<template>
+    <require from="../../../items/generic-storage.css"></require>
+    <require from="../../../items/generic-storage-modal.css"></require>
+    <require from="./storage-barcode-sample-assignment.css"></require>
+    <require from="../../../reader/data-structures/container-states"></require>
+    <require from="../position-map"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+            <div class="col-sm-12 assignment-properties">
+
+                <!-- Close button -->
+                <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Title -->
+                <!--<h4 class="modal-title">${title}</h4>-->
+            </div>
+
+
+
+
+
+            <!--The tag display-->
+
+
+
+
+            <div show.bind="primaryContainer" class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <fieldset class="form-group col-sm-12">
+                            <legend>${title}</legend>
+
+                            <div class="col-md-6 col-md-offset-3">
+
+                                <!-- Materials -->
+                                <div class="form-group">
+                                    <div class="form-group col-sm-12">
+                                        <label>Batch *</label>
+                                        <select value.bind="material" class="form-control">
+                                            <option repeat.for="item of materials" model.bind="item">${item.name}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Materials -->
+                                <div class="form-group col-sm-12">
+                                    <label>Batch Type*</label>
+                                    <select value.bind="type" class="form-control">
+                                        <option repeat.for="item of types" model.bind="item">${item}</option>
+                                    </select>
+                                </div>
+
+                                <!-- Configurable fields -->
+                                <table class="form-group col-sm-12">
+                                    <tbody>
+                                        <tr repeat.for="mat of 2">
+                                            <td>
+                                                <div class="form-group col-sm-12">
+                                                    <label>${material.materialInfo[mat].field} *</label>
+                                                    <input type="text" value.bind="material.materialInfo[mat].value" class="form-control" disabled />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!-- slots -->
+                <div class="form-group col-sm-12">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td repeat.for="m of containerStates.length">
+                                    <div class="form-group">
+                                        <div class="col" align="center">
+                                            <img if.bind="(containerStates[m] === 4)" src="../../../images/missing-10x1Image.png" class="assignment-cell-circle" /> <!--ContainerStates.ERROR-->
+                                            <img if.bind="(containerStates[m] === 3)" src="../../../images/ident-problem-10x1Image.png" class="assignment-cell-circle" /> <!--ContainerStates.INVAILD-->
+                                            <img if.bind="(containerStates[m] === 2)" src="../../../images/assignNewVial10x1Image.png" class="assignment-cell-circle" /> <!--ContainerStates.UNFILLED-->
+                                            <img if.bind="(containerStates[m] === 1)" src="../../../images/correct10x1Image.png" class="assignment-cell-circle" /><!--ContainerStates.FILLED-->
+                                            <img if.bind="(containerStates[m] === 0)" src="../../../images/empty-pos-black.png" class="assignment-cell-circle" /><!--ContainerStates.DEFAULT-->
+
+                                            <div>
+
+                                                <div>
+                                                    <p># ${m+1}</p>
+                                                </div>
+                                                <!--<textarea rows="3" value.bind="this.storageOperations.newTags[m].UID[0]" class="form-control slot-properties" disabled.bind="containerStates[m] != 2" />-->
+                                                <div>
+                                                    <div id="myForm">
+                                                        <!--<input type="text" value.bind="descriptions[m]" class="form-control bigText" keypress.delegate="handleKeyPress($event)" disabled.bind="containerStates[m] != 2" />-->
+                                                        <textarea name="text" value.bind="descriptions[m]" class="form-control bigText" rows="2" cols="10" wrap="soft" keypress.delegate="handleKeyPress($event)" disabled.bind="containerStates[m] != 2"></textarea>
+                                                    </div>
+                                                    <div>
+                                                        <label>${batches[m]}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal footer, command button row -->
+
+            <div class="modal-footer">
+                <!-- Separator -->
+                <div>
+                    <hr />
+                </div>
+
+                <div class="form-group button-separator">
+                    <button type="button" class="btn btn-primary" disabled.bind="isInValid" click.trigger="confirm()">Confirm</button>
+                    <button type="button" class="btn btn-primary" click.trigger="controller.cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </ux-dialog>
+
+
+</template>

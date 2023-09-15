@@ -1,0 +1,16 @@
+﻿.material-properties {
+    border-right: 1px solid #ccc;
+    max-width: 2000px;
+}
+
+.vial-quantities {
+    margin-bottom: 28px;
+}
+
+.cryo-date {
+    margin-top: 28px;
+}
+
+.health-status {
+    margin-top: 20px;
+}

@@ -1,0 +1,1 @@
+﻿The plugins in this folder did not work well with publish / webpack. The js is taken from node_modules/<plugin-name>/dist/es2015, which was downloaded via npm.

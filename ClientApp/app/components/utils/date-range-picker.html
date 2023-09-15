@@ -1,0 +1,11 @@
+﻿<template bindable="dateRange,enabled">
+    <div if.bind="enabled" class="input-group date-range-picker">
+        <input class="form-control date-range" type="text" value.bind="dateRange"/>
+        <span class="input-group-addon" data-target="#date-range-picker" data-toggle="date-range-picker">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+    <div if.bind="!enabled" class="date-range-picker">
+        <input class="form-control date-range" type="text" value.bind="dateRange" disabled.bind="!enabled" />
+    </div>
+</template>

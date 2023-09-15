@@ -1,0 +1,81 @@
+﻿<template bindable="containerStates, slots">
+    <require from="./position-map.css"></require>
+    <require from="../../reader/data-structures/container-states"></require>
+    <require from="../../reader/data-structures/slot-states"></require>
+
+    <table>
+        <tbody class="form-group col-sm-12">
+            <tr>
+                <td repeat.for="state of states">
+                    <img if.bind="(state === 4)" src="../../images/missing.png" class="assignment-cell" /> <!--ContainerStates.ERROR-->
+                    <img if.bind="(state === 3)" src="../../images/ident-problem.png" class="assignment-cell" /> <!--ContainerStates.INVAILD-->
+                    <img if.bind="(state === 2)" src="../../images/unassigned.png" class="assignment-cell" /> <!--ContainerStates.UNFILLED-->
+                    <img if.bind="(state === 1)" src="../../images/error-already-assigned.png" class="assignment-cell" /><!--ContainerStates.FILLED-->
+                    <img if.bind="(state === 0)" src="../../images/empty-position.png" class="assignment-cell" /><!--ContainerStates.DEFAULT-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table>
+        <tbody class="form-group col-sm-12">
+            <tr repeat.for="row of slots">
+                <td repeat.for="slot of row">
+                    <div if.bind="(slot.slotState === 11)" class="relative">
+                        <img src="../../images/assignNewVial.png" class="box-cell" click.delegate="assign(slot)" /><!--SlotStates.UNASSIGNED-->
+                        <p class="absolute-text">${slot.slotNumber} Unassigned!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 10)" class="relative">
+                        <img src="../../images/vial-loading.png" class="box-cell" /><!--SlotStates.LOADING-->
+                        <p class="absolute-text">${slot.slotNumber} Loading..</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 9)" class="relative">
+                        <img src="../../images/box-tag-position.png" class="box-cell" /><!--SlotStates.STORAGE_TAG-->
+                        <p class="absolute-text">${slot.slotNumber}</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 8)" class="relative">
+                        <img src="../../images/error-unassigned.png" class="box-cell" /><!--SlotStates.ERROR-->
+                        <p class="absolute-text">${slot.slotNumber} Error!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 7)" class="relative">
+                        <img src="../../images/pick-list-item.png" class="box-cell" /> <!--SlotStates.PENDING-->
+                        <p class="absolute-text">${slot.slotNumber} Pick me!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 6)" class="relative">
+                        <img src="../../images/incorrectly-placed.png" class="box-cell" click.delegate="showDialogue(slot)" /> <!--SlotStates.MOVED-->
+                        <p class="absolute-text">${slot.slotNumber} Moved!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 5)" class="relative">
+                        <img src="../../images/new-vial.png" class="box-cell" click.delegate="showDialogue(slot)" /> <!--SlotStates.NEW-->
+                        <p class="absolute-text">${slot.slotNumber} New!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 4)" class="relative">
+                        <img src="../../images/error-already-assigned.png" class="box-cell" click.delegate="showDialogue(slot)" /> <!--SlotStates.RESERVED-->
+                        <p class="absolute-text">${slot.slotNumber} Reserved!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 3)" class="relative">
+                        <img src="../../images/removed.png" class="box-cell" /> <!--SlotStates.REMOVED-->
+                        <p class="absolute-text">${slot.slotNumber}</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 2)" class="relative">
+                        <img src="../../images/missing.png" class="box-cell" click.delegate="showDialogue(slot)" /> <!--SlotStates.MISSING-->
+                        <p class="absolute-text">${slot.slotNumber} Missing!</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 1)" class="relative">
+                        <img src="../../images/correct.png" class="box-cell" click.delegate="showDialogue(slot)" /><!--SlotStates.OCCUPIED-->
+                        <p class="absolute-text">${slot.slotNumber}</p>
+                    </div>
+                    <div if.bind="(slot.slotState === 0)" class="relative">
+                        <img src="../../images/empty-position.png" class="box-cell" /><!--SlotStates.EMPTY-->
+                        <p class="absolute-text">${slot.slotNumber}</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div></div>
+
+</template>
+

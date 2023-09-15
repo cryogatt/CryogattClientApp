@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipDefaultLibCheck": true,
+    "lib": [ "es2015", "dom" ],
+    "types": [ "node" ],
+    "noEmitOnError": true,
+    "noImplicitAny": false
+  },
+  "compileOnSave": true,
+  "exclude": [ "bin", "node_modules" ],
+  "atom": { "rewriteTsconfig": false },
+  "types": [ "jquery" ],
+  "styles": [
+    "../node_modules/bootstrap/dist/css/bootstrap.css"
+  ],
+  "scripts": [
+    "../node_modules/jquery/dist/jquery.js",
+    "../node_modules/bootstrap/dist/js/bootstrap.js"
+  ]
+}

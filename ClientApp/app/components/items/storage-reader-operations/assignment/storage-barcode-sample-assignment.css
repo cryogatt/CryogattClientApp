@@ -1,0 +1,24 @@
+﻿.assignment-properties {
+   
+    position: center;
+}
+.slot-properties {
+    position: center;
+    width: 91px;
+}
+
+.occuppiedslot-properties {
+    position: center;
+    width: 81px;
+}
+
+.emptyslot-properties {
+    position: center;
+    width: 61px;
+}
+
+.bigText {
+    height: 50px;
+    position: center;
+    width: 101px;
+}

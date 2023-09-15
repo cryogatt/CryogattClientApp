@@ -1,0 +1,45 @@
+﻿<template>
+    <require from="../../../items/generic-storage.css"></require>
+    <require from="../../../items/generic-storage-modal.css"></require>
+    <require from="../../../reader/data-structures/container-states"></require>
+    <require from="../position-map"></require>
+
+    <ux-dialog>
+        <!-- Modal header -->
+        <div class="modal-header">
+            <div class="col-sm-12 assignment-properties">
+
+                <!-- Close button -->
+                <button type="button" class="close" aria-label="Close" click.trigger="controller.cancel()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Title -->
+                <h4 class="modal-title">${title}</h4>
+
+                <div>
+                    <hr />
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group col-sm-12" align="center">
+                        <img if.bind="(containerState === 4)" src="../../../images/missing.png" class="assignment-cell" /> <!--ContainerStates.ERROR-->
+                        <img if.bind="(containerState === 3)" src="../../../images/ident-problem.png" class="assignment-cell" /> <!--ContainerStates.INVAILD-->
+                        <img if.bind="(containerState === 2)" src="../../../images/assignNewVial.png" class="assignment-cell" /> <!--ContainerStates.UNFILLED-->
+                        <img if.bind="(containerState === 1)" src="../../../images/correct.png" class="assignment-cell" /><!--ContainerStates.FILLED-->
+                        <img if.bind="(containerState === 0)" src="../../../images/empty-position.png" class="assignment-cell" /><!--ContainerStates.DEFAULT-->
+                    </div>
+
+                </div>
+                
+                <!-- Modal footer, command button row -->
+                <div class="modal-footer">
+                    <div class="form-group button-separator">
+                        <button if.bind="canUpdateDb" type="button" class="btn btn-primary" click.trigger="confirm()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ux-dialog>
+
+</template>
