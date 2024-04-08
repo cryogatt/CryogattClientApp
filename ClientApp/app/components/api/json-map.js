@@ -581,9 +581,11 @@ function Server_ConvertToPicklist(items) {
         for (var _i = 0, _a = items.Aliquots; _i < _a.length; _i++) {
             var item = _a[_i];
             var picklistItem = new picklistitem_1.PickListItem();
+            var it = 0;
             picklistItem.uid = item.Uid;
             picklistItem.batchName = item.BatchName;
             picklistItem.primary_description = item.PrimaryDescription;
+            picklistItem.accessionNo = item.Material[1].AttributeValueName;
             picklistItem.position = item.Position;
             picklistItem.parent_description = item.ParentDescription;
             picklistItem.gParent_description = item.GrandParentDescription;

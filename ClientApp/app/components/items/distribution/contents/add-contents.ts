@@ -33,8 +33,8 @@ export class AddContents {
         this.storage.schema.set("PrimaryDescription","Labelled");
         this.storage.schema.set("Batch", "Batch");
         this.storage.schema.set("Stored In", "Stored In");
-        this.storage.schema.set("gParent_description", ".");
-        this.storage.schema.set("ggParent_description", "..");
+        this.storage.schema.set("gParent_description", "Stack");
+        this.storage.schema.set("ggParent_description", "Dewar");
 
         // Command presence
         this.storage.canCreateItem = false;

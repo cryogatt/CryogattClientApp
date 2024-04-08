@@ -51,8 +51,8 @@ export class ViewContents {
         this.storage.schema.set("primary_description", "Labelled");
         this.storage.schema.set("Batch", "Batch Name",);
         this.storage.schema.set("parent_description", "Now Stored In");
-        this.storage.schema.set("gParent_description", ".");
-        this.storage.schema.set("ggParent_description", "..");
+        this.storage.schema.set("gParent_description", "Stack");
+        this.storage.schema.set("ggParent_description", "Dewar");
         
         // Command presence
         this.storage.canViewHistory = true;

@@ -223,7 +223,7 @@ var StorageTenByOneAssignment = /** @class */ (function () {
                     case 2: return [4 /*yield*/, _b.apply(_a, [_c.sent()])];
                     case 3:
                         _c.sent();
-                        this.apiPath = "BookingOperations";
+                        this.apiPath = "TenByOneBookingOperations";
                         return [2 /*return*/];
                 }
             });

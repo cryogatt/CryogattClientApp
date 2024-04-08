@@ -36,9 +36,9 @@ export class Aliquots {
         // ToDo Add primary description
         this.storage.schema.set("Status", "Status");
         this.storage.schema.set("parent_description", "Stored In");
-        this.storage.schema.set("gParent_description", ".");
-        this.storage.schema.set("ggParent_description", "..");
-        this.storage.schema.set("site", "...");
+        this.storage.schema.set("gParent_description", "Stack");
+        this.storage.schema.set("ggParent_description", "Dewar");
+        this.storage.schema.set("site", "Site");
 
         // Command presence
         this.storage.canViewHistory = true;

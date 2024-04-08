@@ -705,10 +705,11 @@ export function Server_ConvertToPicklist(items: any): PickListItem[] {
     if (items && items.hasOwnProperty('Aliquots')) {
         for (var item of items.Aliquots) {
             var picklistItem = new PickListItem();
-
+            var it: number = 0;
             picklistItem.uid = item.Uid;
             picklistItem.batchName = item.BatchName; 
-            picklistItem.primary_description = item.PrimaryDescription;  
+            picklistItem.primary_description = item.PrimaryDescription; 
+            picklistItem.accessionNo = item.Material[1].AttributeValueName;
             picklistItem.position = item.Position;
             picklistItem.parent_description = item.ParentDescription;
             picklistItem.gParent_description = item.GrandParentDescription;

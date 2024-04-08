@@ -6,6 +6,7 @@ export class PickListItem {
     @bindable uid: string;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) batchName: string;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) position: string;
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) accessionNo: string;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) primary_description: string;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) parent_description: string;
     @bindable({ defaultBindingMode: bindingMode.twoWay }) gParent_description: string;

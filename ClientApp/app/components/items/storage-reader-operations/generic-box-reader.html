@@ -33,46 +33,47 @@
             <hr />
         </div>
 
-        <div class="form-group col-sm-3">
-            <label>Labelled </label>
-            <input type="text" value.bind="boxDisplay.boxName" class="form-control" />
-        </div>
-
-        <div class="row"></div>
-        <label class="form-group col-sm-3">Storage Location</label>
-        <div class="row"></div>
-        <div>
-            <!-- Parent Dropdown Menu -->
-            <div if.bind="boxDisplay.usingSecondDropMenu" class="col-sm-3">
-                <select value.bind="boxDisplay.gParent" class="form-control" align="left" change.delegate="boxDisplay.gParentChangedEvent(boxDisplay.gParent.uid)">
-                    <option repeat.for="item of boxDisplay.gParents" model.bind="item">${item.name}</option>
-                </select>
+        <div class="row" align="left">
+            <div class="form-group col-sm-3">
+                <label>Labelled </label>
+                <input type="text" value.bind="boxDisplay.boxName" class="form-control" />
             </div>
 
-            <div class="col-sm-3">
-                <select value.bind="boxDisplay.parent" class="form-control" align="left" change.delegate="boxDisplay.parentChangedEvent(boxDisplay.parent.uid)">
-                    <option repeat.for="item of boxDisplay.parents" model.bind="item">${item.name}</option>
-                </select>
+            <div class="row"></div>
+            <label class="form-group col-sm-3">Storage Location</label>
+            <div class="row"></div>
+            <div>
+                <!-- Parent Dropdown Menu -->
+                <div if.bind="boxDisplay.usingSecondDropMenu" class="col-sm-3">
+                    <select value.bind="boxDisplay.gParent" class="form-control" align="left" change.delegate="boxDisplay.gParentChangedEvent(boxDisplay.gParent.uid)">
+                        <option repeat.for="item of boxDisplay.gParents" model.bind="item">${item.name}</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-3">
+                    <select value.bind="boxDisplay.parent" class="form-control" align="left" change.delegate="boxDisplay.parentChangedEvent(boxDisplay.parent.uid)">
+                        <option repeat.for="item of boxDisplay.parents" model.bind="item">${item.name}</option>
+                    </select>
+                </div>
+                <!-- Parent Dropdown Menu -->
+                <button show.bind="( (boxDisplay.parent.uid !== boxDisplay.currentParentUid && boxDisplay.parent.uid !== '') || (boxDisplay.storageOperations.storageItem.description !== boxDisplay.boxName && boxDisplay.boxName !== '') ) && (boxDisplay.storageOperations.fsm.currentState === 1)" class="btn btn-primary" click.delegate="update()">Update</button>
+                <button if.bind="(boxDisplay.storageOperations.fsm.currentState === 2 && boxDisplay.boxName !== '')" class="btn btn-primary" click.delegate="register()">Register</button>
+
             </div>
-            <!-- Parent Dropdown Menu -->
-            <button show.bind="( (boxDisplay.parent.uid !== boxDisplay.currentParentUid && boxDisplay.parent.uid !== '') || (boxDisplay.storageOperations.storageItem.description !== boxDisplay.boxName && boxDisplay.boxName !== '') ) && (boxDisplay.storageOperations.fsm.currentState === 1)" class="btn btn-primary" click.delegate="update()">Update</button>
-            <button if.bind="(boxDisplay.storageOperations.fsm.currentState === 2 && boxDisplay.boxName !== '')" class="btn btn-primary" click.delegate="register()">Register</button>
-       
         </div>
+            <div class="row"></div>
 
-        <div class="row"></div>
+            <!-- Separator -->
+            <div>
+                <hr />
+            </div>
 
-        <!-- Separator -->
-        <div>
-            <hr />
+            <button title="View Temperature"
+                    type="button"
+                    class="btn btn-success btn-xl"
+                    if.bind="boxDisplay.canViewTemperatureStats"
+                    click.delegate="launchTemperatureStatsDlg()">
+                View Temperature
+            </button>
         </div>
-
-        <button title="View Temperature"
-                type="button"
-                class="btn btn-success btn-xl"
-                if.bind="boxDisplay.canViewTemperatureStats"
-                click.delegate="launchTemperatureStatsDlg()">
-            View Temperature
-        </button>
-    </div>
 </template>

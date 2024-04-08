@@ -24,6 +24,8 @@ export class PickList {
     // Base list view model
     public storage: GenericStorage;
 
+    //public materialInfos: MaterialInfo[];
+
     // Page navigation
     private theRouter: Router;
 
@@ -63,11 +65,21 @@ export class PickList {
         this.storage.schema.set("UID", "UID");
         this.storage.schema.set("BatchName", "Batch");
         this.storage.schema.set("primary_description", "Labelled");
+        // Get Material header fields for Accession no
+        //this.materialInfos = Jsonmap.Server_ConvertToMaterialInfo(await Http_GetItems("MaterialInfo"));
+        //if (this.materialInfos) {
+        //    this.storage.schema.set("configurableField_2", this.materialInfos[1].field);
+        //}
+        this.storage.schema.set("accessionNo", "Accession No");
         this.storage.schema.set("position", "Position");
         this.storage.schema.set("parent_description", "Stored in");
-        this.storage.schema.set("gParent_description", "..");
-        this.storage.schema.set("ggParent_description", "...");
-  
+        this.storage.schema.set("gParent_description", "Stack");
+        this.storage.schema.set("ggParent_description", "Dewar");
+
+
+
+
+
         // Set table data
         this.storage.items = Server_ConvertToPicklist(await Http_GetItems(this.storage.apiPath));
 

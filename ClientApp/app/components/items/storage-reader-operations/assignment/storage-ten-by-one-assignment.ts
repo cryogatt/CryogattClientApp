@@ -165,7 +165,7 @@ export class StorageTenByOneAssignment implements IStorageReaderOperations {
 
         await ReaderService.startPollingReader(await this.pollReader.bind(this));
 
-        this.apiPath = "BookingOperations";
+        this.apiPath = "TenByOneBookingOperations";
     }
 
     async stopReader() {
