@@ -40,7 +40,7 @@ export class ImportModal {
             fileReader.readAsText(this.fileNames[0]);
             fileReader.onload = () => {
 
-                var formData: string = fileReader.result;
+                const formData: string = fileReader.result as string ;
                 if (formData) {
 
                     // Post the data using the Web API

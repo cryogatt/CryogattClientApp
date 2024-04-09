@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ImportModal = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_dialog_1 = require("aurelia-dialog");
 var server_1 = require("../../api/server");
@@ -37,7 +38,7 @@ var ImportModal = /** @class */ (function () {
                 var formData = fileReader.result;
                 if (formData) {
                     // Post the data using the Web API
-                    server_1.Http_Import(formData)
+                    (0, server_1.Http_Import)(formData)
                         .then(function (response) {
                         if (response) {
                             toastr.warning(response);
@@ -57,12 +58,12 @@ var ImportModal = /** @class */ (function () {
         }
     };
     __decorate([
-        aurelia_framework_1.bindable({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
+        (0, aurelia_framework_1.bindable)({ defaultBindingMode: aurelia_framework_1.bindingMode.twoWay }),
         __metadata("design:type", FileList)
     ], ImportModal.prototype, "fileNames", void 0);
     ImportModal = __decorate([
-        aurelia_framework_1.transient(),
-        aurelia_framework_1.autoinject(),
+        (0, aurelia_framework_1.transient)(),
+        (0, aurelia_framework_1.autoinject)(),
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogController])
     ], ImportModal);
     return ImportModal;

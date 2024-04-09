@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.App = void 0;
 var aurelia_framework_1 = require("aurelia-framework");
 var aurelia_router_1 = require("aurelia-router");
 var aurelia_dialog_1 = require("aurelia-dialog");
@@ -275,7 +276,7 @@ var App = /** @class */ (function () {
         __metadata("design:type", Object)
     ], App.prototype, "softwareVersion", void 0);
     App = __decorate([
-        aurelia_framework_1.autoinject(),
+        (0, aurelia_framework_1.autoinject)(),
         __metadata("design:paramtypes", [aurelia_dialog_1.DialogService, auth_service_1.AuthService, reader_service_1.ReaderService, generic_storage_1.GenericStorage])
     ], App);
     return App;
@@ -296,7 +297,7 @@ var AuthorizeStep = /** @class */ (function () {
         return next();
     };
     AuthorizeStep = __decorate([
-        aurelia_framework_1.autoinject(),
+        (0, aurelia_framework_1.autoinject)(),
         __metadata("design:paramtypes", [auth_service_1.AuthService])
     ], AuthorizeStep);
     return AuthorizeStep;
